@@ -14,55 +14,82 @@
 
 module register_file_1r_1w_be
 #(
-    parameter ADDR_WIDTH    = 5,
-    parameter DATA_WIDTH    = 64,
-    parameter NUM_BYTE      = DATA_WIDTH/8
+    parameter ADDR_WIDTH = 5,
+    parameter DATA_WIDTH = 64,
+    parameter BLOCK_RAM  = 1,
+    parameter NUM_BYTE   = DATA_WIDTH/8
 )
 (
-    input   logic                                         clk,
-    input   logic                                         rst_n,
+    input   logic                  clk,
+    input   logic                  rst_n,
 
-    input   logic                                         ReadEnable,
-    input   logic [ADDR_WIDTH-1:0]                        ReadAddr,
-    output  logic [DATA_WIDTH-1:0]                        ReadData,
+    input   logic                  ReadEnable,
+    input   logic [ADDR_WIDTH-1:0] ReadAddr,
+    output  logic [DATA_WIDTH-1:0] ReadData,
 
-    input   logic [ADDR_WIDTH-1:0]                        WriteAddr,
-    input   logic                                         WriteEnable,
-    input   logic [NUM_BYTE-1:0][DATA_WIDTH/NUM_BYTE-1:0] WriteData,
-    input   logic [NUM_BYTE-1:0]                          WriteBE
+    input   logic [ADDR_WIDTH-1:0] WriteAddr,
+    input   logic                  WriteEnable,
+    input   logic [DATA_WIDTH-1:0] WriteData,
+    input   logic [NUM_BYTE-1:0]   WriteBE
 );
 
   localparam N_SCM_REGISTERS = 2**ADDR_WIDTH;
+  localparam MEM_TYPE = BLOCK_RAM ? "block" : "distributed";
 
-  // signals
-  (* ram_style = "block" *) logic [N_SCM_REGISTERS-1:0][NUM_BYTE-1:0][DATA_WIDTH/NUM_BYTE-1:0] MemContent_int; // BRAM
-  logic [DATA_WIDTH-1:0]                                                                       ReadData_reg;
+  logic [NUM_BYTE-1:0] WriteBE_int;
+  assign WriteBE_int = WriteEnable ? WriteBE : '0;
 
-  // Read Port
-  always_ff @(posedge clk or negedge rst_n)
-  begin
-    if(rst_n == 1'b0)
-      ReadData_reg <= '0;
-    else if(ReadEnable == 1'b1)
-      ReadData_reg <= MemContent_int[ReadAddr];
-  end
-
-  always_comb
-  begin : register_read_port_behavioral
-    ReadData <= ReadData_reg;
-  end
-
-  // Write Port
-  always_ff @(posedge clk or negedge rst_n)
-  begin
-    if(rst_n == 1'b0) begin
-      MemContent_int <= '0;
-    end
-    else if(WriteEnable == 1'b1) begin
-      for(int i=0; i<NUM_BYTE; i++)
-        if(WriteBE[i] == 1'b1)
-          MemContent_int[WriteAddr][i] <= WriteData[i];
-    end
-  end
+  xpm_memory_tdpram # (
+    .MEMORY_SIZE        ( N_SCM_REGISTERS ),
+    .MEMORY_PRIMITIVE   ( MEM_TYPE        ),
+    .MEMORY_INIT_FILE   ( "none"          ), // FIXME
+    .MEMORY_INIT_PARAM  ( ""              ),
+    .USE_MEM_INIT       ( 1               ),
+    .WAKEUP_TIME        ( "disable_sleep" ),
+    .MESSAGE_CONTROL    ( 0               ),
+    .ECC_MODE           ( "no_ecc"        ),
+    .AUTO_SLEEP_TIME    ( 0               ),
+    .CLOCKING_MODE      ( "common_clock"  ),
+    .WRITE_DATA_WIDTH_A ( DATA_WIDTH      ),
+    .READ_DATA_WIDTH_A  ( DATA_WIDTH      ),
+    .BYTE_WRITE_WIDTH_A ( 8               ),
+    .ADDR_WIDTH_A       ( ADDR_WIDTH-2    ),
+    .READ_RESET_VALUE_A ( "0"             ),
+    .READ_LATENCY_A     ( 1               ),
+    .WRITE_MODE_A       ( "no_change"     ),
+    .WRITE_DATA_WIDTH_B ( DATA_WIDTH      ),
+    .READ_DATA_WIDTH_B  ( DATA_WIDTH      ),
+    .BYTE_WRITE_WIDTH_B ( 8               ),
+    .ADDR_WIDTH_B       ( ADDR_WIDTH-2    ),
+    .READ_RESET_VALUE_B ("0"              ),
+    .READ_LATENCY_B     ( 1               ),
+    .WRITE_MODE_B       ( "no_change"     )
+  ) i_scm_xilinx (
+    .sleep          ( 1'b0                      ),
+    .clka           ( clk                       ),
+    .rsta           ( 1'b0                      ),
+    .ena            ( 1'b1                      ),
+    .regcea         ( 1'b1                      ),
+    .wea            ( WriteBE_int               ),
+    .addra          ( WriteAddr[ADDR_WIDTH-1:2] ),
+    .dina           ( WriteData                 ),
+    .injectsbiterra ( 1'b0                      ),
+    .injectdbiterra ( 1'b0                      ),
+    .douta          (                           ),
+    .sbiterra       (                           ),
+    .dbiterra       (                           ),
+    .clkb           ( clk                       ),
+    .rstb           ( 1'b0                      ),
+    .enb            ( 1'b1                      ),
+    .regceb         ( 1'b1                      ),
+    .web            ( '0                        ),
+    .addrb          ( ReadAddr[ADDR_WIDTH-1:2]  ),
+    .dinb           ( '0                        ),
+    .injectsbiterrb ( 1'b0                      ),
+    .injectdbiterrb ( 1'b0                      ),
+    .doutb          ( ReadData                  ),
+    .sbiterrb       (                           ),
+    .dbiterrb       (                           )
+  );
 
 endmodule
