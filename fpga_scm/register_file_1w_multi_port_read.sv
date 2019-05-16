@@ -45,7 +45,7 @@ generate
             register_file_1r_1w_1row
             #(
                 .DATA_WIDTH ( DATA_WIDTH )  // 64,
-      `ifdef PULP_FPGA_EMUL
+      `ifdef PULP_FPGA
                 ,
                 .BLOCK_RAM  ( 1          )  // 1
       `endif
@@ -53,7 +53,7 @@ generate
             bram_cut
             (
                 .clk         ( clk           ),
-      `ifdef PULP_FPGA_EMUL
+      `ifdef PULP_FPGA
                 .rst_n       ( rst_n         ),
       `endif
 
@@ -70,7 +70,7 @@ generate
             #(
                 .ADDR_WIDTH ( ADDR_WIDTH ), // 5,
                 .DATA_WIDTH ( DATA_WIDTH )  // 64,
-      `ifdef PULP_FPGA_EMUL
+      `ifdef PULP_FPGA
                 ,
                 .BLOCK_RAM  ( 1          )  // 1
       `endif
@@ -78,7 +78,7 @@ generate
             bram_cut
             (
                 .clk         ( clk           ),
-      `ifdef PULP_FPGA_EMUL
+      `ifdef PULP_FPGA
                 .rst_n       ( rst_n         ),
       `endif
 
