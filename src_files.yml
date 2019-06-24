@@ -49,4 +49,5 @@ scm_fpga:
     fpga_scm/register_file_2r_1w_asymm_test_wrap.sv,
     fpga_scm/register_file_2r_2w.sv,
     fpga_scm/register_file_3r_2w.sv,
+    fpga_scm/register_file_3r_2w_be.sv,
   ]
