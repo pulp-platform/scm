@@ -5,6 +5,7 @@ scm:
   targets: [
     rtl,
     tsmc55,
+    tsmc65,
     gf22,
   ]
   files: [
