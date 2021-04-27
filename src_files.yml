@@ -8,7 +8,7 @@ scm:
     gf22,
   ]
   files: [
-    latch_scm/register_file_1r_1w_test_wrap.sv,
+    latch_scm/register_file_1r_1w_test_wrap_bypass.sv,
     latch_scm/register_file_1w_64b_multi_port_read_32b_1row.sv,
     latch_scm/register_file_1w_multi_port_read_1row.sv,
     latch_scm/register_file_1r_1w_all.sv,
