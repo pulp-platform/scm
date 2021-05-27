@@ -2,6 +2,14 @@ package:
   name: scm
 
 sources:
+  - src/latch_register_file_1r_1w.sv
+  - src/latch_register_file_1r_1w_all.sv
+  - src/latch_register_file_1r_1w_test_wrap.sv
+  - src/latch_register_file_1r_1w_all_test_wrap.sv
+  - src/ff_register_file_1r_1w.sv
+  - src/ff_register_file_1r_1w_all.sv
+  - src/ff_register_file_1r_1w_test_wrap.sv
+  - src/ff_register_file_1r_1w_all_test_wrap.sv
   - target: all(any(all(not(fpga), not(verilator)), scm_use_latch_scm), not(scm_use_fpga_scm))
     files:
       - latch_scm/register_file_1r_1w_test_wrap.sv
