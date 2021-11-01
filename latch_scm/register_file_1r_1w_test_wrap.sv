@@ -15,6 +15,7 @@ module register_file_1r_1w_test_wrap
 )
 (
     input  logic                                  clk,
+    input  logic                                  rst_n,
 
     // Read port
     input  logic                                  ReadEnable,
@@ -69,7 +70,7 @@ module register_file_1r_1w_test_wrap
 
    assign Q_T = ReadData;
 
-   register_file_1r_1w
+   register_file_1r_1w_ff
    #(
        .ADDR_WIDTH  ( ADDR_WIDTH ),
        .DATA_WIDTH  ( DATA_WIDTH )
@@ -77,7 +78,8 @@ module register_file_1r_1w_test_wrap
    register_file_1r_1w_i
    (
       .clk          ( clk ),
-
+      .rst_n        ( rst_n ),
+    
       .ReadEnable   ( ReadEnable_muxed  ),
       .ReadAddr     ( ReadAddr_muxed    ),
       .ReadData     ( ReadData          ),

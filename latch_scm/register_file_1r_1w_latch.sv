@@ -33,7 +33,7 @@
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 
-module register_file_1r_1w
+module register_file_1r_1w_latch
 #(
     parameter ADDR_WIDTH    = 5,
     parameter DATA_WIDTH    = 32
