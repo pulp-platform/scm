@@ -66,13 +66,6 @@ module register_file_1r_1w_ff
     logic [NUM_WORDS-1:0]                         WAddrEn;
 
     int unsigned i;
-    int unsigned j;
-    int unsigned k;
-    int unsigned l;
-    int unsigned m;
-
-    genvar x;
-    genvar y;
 
     //-----------------------------------------------------------------------------
     //-- READ : Read address register
