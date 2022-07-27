@@ -5,6 +5,7 @@ scm:
   targets: [
     rtl,
     verilator,
+    tsmc65,
     tsmc55,
     gf22,
   ]
