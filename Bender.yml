@@ -10,7 +10,8 @@ sources:
       - latch_scm/register_file_1r_1w_all.sv
       - latch_scm/register_file_1r_1w_all_test_wrap.sv
       - latch_scm/register_file_1r_1w_be.sv
-      - latch_scm/register_file_1r_1w.sv
+      - latch_scm/register_file_1r_1w_ff.sv
+      - latch_scm/register_file_1r_1w_latch.sv
       - latch_scm/register_file_1r_1w_1row.sv
       - latch_scm/register_file_1w_128b_multi_port_read_32b.sv
       - latch_scm/register_file_1w_64b_multi_port_read_32b.sv
