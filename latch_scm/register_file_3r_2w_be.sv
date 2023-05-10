@@ -106,7 +106,7 @@ module register_file_3r_2w_be
     end
     `endif
 
-    cluster_clock_gating CG_WE_GLOBAL
+    tc_clk_gating CG_WE_GLOBAL
     (
         .clk_o(clk_int),
         .en_i(WriteEnable_A | WriteEnable_B),
@@ -176,7 +176,7 @@ module register_file_3r_2w_be
       begin : CG_CELL_WORD_ITER
           for(y=0; y<NUM_BYTE; y++)
             begin : CG_CELL_BYTE_ITER
-                cluster_clock_gating CG_Inst
+                tc_clk_gating CG_Inst
                 (
                   .clk_o(ClocksxC[x][y]),
                   .en_i(WAddrOneHotxD_A[x][y] | WAddrOneHotxD_B[x][y]),
