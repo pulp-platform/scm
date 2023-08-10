@@ -33,7 +33,6 @@ module register_file_1r_1w_be
 
     // Read address register, located at the input of the address decoder
     logic [ADDR_WIDTH-1:0]                         RAddrRegxDP;
-    logic [NUM_WORDS-1:0]                          RAddrOneHotxD;
 
     logic [NUM_BYTE-1:0][7:0]                      MemContentxDP[NUM_WORDS];
 
@@ -74,11 +73,6 @@ module register_file_1r_1w_be
     //-----------------------------------------------------------------------------
     //-- READ : Read address decoder RAD
     //-----------------------------------------------------------------------------  
-    always_comb
-    begin : p_RAD
-      RAddrOneHotxD = '0;
-      RAddrOneHotxD[RAddrRegxDP] = 1'b1;
-    end
     assign ReadData = MemContentxDP[RAddrRegxDP];
 
 
