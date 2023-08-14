@@ -1,6 +1,9 @@
 package:
   name: scm
 
+dependencies:
+  tech_cells_generic: { git: "https://github.com/pulp-platform/tech_cells_generic.git", version: =0.2.11 }
+
 sources:
   - target: all(any(all(not(fpga), not(verilator)), scm_use_latch_scm), not(scm_use_fpga_scm))
     files:

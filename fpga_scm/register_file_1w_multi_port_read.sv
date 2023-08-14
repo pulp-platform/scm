@@ -8,6 +8,10 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
+`ifdef PULP_FPGA_EMUL
+  `define ICAHE_USE_FF
+`endif
+
 module register_file_1w_multi_port_read
 #(
     parameter ADDR_WIDTH    = 5,
@@ -45,7 +49,7 @@ generate
             register_file_1r_1w_1row
             #(
                 .DATA_WIDTH ( DATA_WIDTH )  // 64,
-      `ifdef PULP_FPGA_EMUL
+      `ifdef ICAHE_USE_FF
                 ,
                 .BLOCK_RAM  ( 1          )  // 1
       `endif
@@ -53,7 +57,7 @@ generate
             bram_cut
             (
                 .clk         ( clk           ),
-      `ifdef PULP_FPGA_EMUL
+      `ifdef ICAHE_USE_FF
                 .rst_n       ( rst_n         ),
       `endif
 
@@ -70,7 +74,7 @@ generate
             #(
                 .ADDR_WIDTH ( ADDR_WIDTH ), // 5,
                 .DATA_WIDTH ( DATA_WIDTH )  // 64,
-      `ifdef PULP_FPGA_EMUL
+      `ifdef ICAHE_USE_FF
                 ,
                 .BLOCK_RAM  ( 1          )  // 1
       `endif
@@ -78,7 +82,7 @@ generate
             bram_cut
             (
                 .clk         ( clk           ),
-      `ifdef PULP_FPGA_EMUL
+      `ifdef ICAHE_USE_FF
                 .rst_n       ( rst_n         ),
       `endif
 
