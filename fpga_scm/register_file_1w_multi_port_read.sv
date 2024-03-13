@@ -96,9 +96,3 @@ generate
 endgenerate
 
 endmodule // register_file_1w_multi_port_read
-
-
-
-
-
-
