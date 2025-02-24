@@ -96,7 +96,7 @@ module register_file_2r_2w
     assign we_int = we_a_i | we_b_i;
 
 
-    cluster_clock_gating CG_WE_GLOBAL
+    tc_clk_gating CG_WE_GLOBAL
     (
         .clk_o(clk_int),
         .en_i(we_int),
@@ -166,7 +166,7 @@ module register_file_2r_2w
     generate
     for(x=0; x<NUM_WORDS; x++)
     begin : CG_CELL_WORD_ITER
-        cluster_clock_gating CG_Inst
+        tc_clk_gating CG_Inst
         (
             .clk_o(ClocksxC[x]),
             .en_i(WAddrOneHotxDa[x] | WAddrOneHotxDb[x]),
